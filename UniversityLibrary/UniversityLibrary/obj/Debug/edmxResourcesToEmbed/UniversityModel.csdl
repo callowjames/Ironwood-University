@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IronwoodModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="IronwoodEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UniversityCourses" EntityType="IronwoodModel.UniversityCourse" />
+    <EntitySet Name="UniversityDepartments" EntityType="IronwoodModel.UniversityDepartment" />
+    <AssociationSet Name="FK_UniversityCourse_DepartmentID" Association="IronwoodModel.FK_UniversityCourse_DepartmentID">
+      <End Role="UniversityDepartment" EntitySet="UniversityDepartments" />
+      <End Role="UniversityCourse" EntitySet="UniversityCourses" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UniversityCourse">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CourseName" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="CourseTitle" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="CourseCredits" Type="Byte" Nullable="false" />
+    <Property Name="DepartmentID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="UniversityDepartment" Relationship="IronwoodModel.FK_UniversityCourse_DepartmentID" FromRole="UniversityCourse" ToRole="UniversityDepartment" />
+  </EntityType>
+  <EntityType Name="UniversityDepartment">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="DepartmentOffice" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="DepartmentChairID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="UniversityCourses" Relationship="IronwoodModel.FK_UniversityCourse_DepartmentID" FromRole="UniversityDepartment" ToRole="UniversityCourse" />
+  </EntityType>
+  <Association Name="FK_UniversityCourse_DepartmentID">
+    <End Role="UniversityDepartment" Type="IronwoodModel.UniversityDepartment" Multiplicity="1" />
+    <End Role="UniversityCourse" Type="IronwoodModel.UniversityCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UniversityDepartment">
+        <PropertyRef Name="DepartmentID" />
+      </Principal>
+      <Dependent Role="UniversityCourse">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IronwoodModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="IronwoodModelStoreContainer">
+          <EntitySet Name="UniversityCourse" EntityType="IronwoodModel.Store.UniversityCourse" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UniversityDepartment" EntityType="IronwoodModel.Store.UniversityDepartment" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_UniversityCourse_DepartmentID" Association="IronwoodModel.Store.FK_UniversityCourse_DepartmentID">
+            <End Role="UniversityDepartment" EntitySet="UniversityDepartment" />
+            <End Role="UniversityCourse" EntitySet="UniversityCourse" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="UniversityCourse">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="CourseTitle" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CourseCredits" Type="tinyint" Nullable="false" />
+          <Property Name="DepartmentID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UniversityDepartment">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="DepartmentOffice" Type="varchar" MaxLength="30" />
+          <Property Name="DepartmentChairID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_UniversityCourse_DepartmentID">
+          <End Role="UniversityDepartment" Type="IronwoodModel.Store.UniversityDepartment" Multiplicity="1" />
+          <End Role="UniversityCourse" Type="IronwoodModel.Store.UniversityCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UniversityDepartment">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="UniversityCourse">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IronwoodModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="IronwoodEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="IronwoodModel.Course" />
+          <EntitySet Name="Departments" EntityType="IronwoodModel.Department" />
+          <AssociationSet Name="FK_UniversityCourse_DepartmentID" Association="IronwoodModel.FK_UniversityCourse_DepartmentID">
+            <End Role="UniversityDepartment" EntitySet="Departments" />
+            <End Role="UniversityCourse" EntitySet="Courses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Credits" Type="Byte" Nullable="false" />
+          <Property Name="Department" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="UniversityDepartment" Relationship="IronwoodModel.FK_UniversityCourse_DepartmentID" FromRole="UniversityCourse" ToRole="UniversityDepartment" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="Office" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="Chair" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="UniversityCourses" Relationship="IronwoodModel.FK_UniversityCourse_DepartmentID" FromRole="UniversityDepartment" ToRole="UniversityCourse" />
+        </EntityType>
+        <Association Name="FK_UniversityCourse_DepartmentID">
+          <End Role="UniversityDepartment" Type="IronwoodModel.Department" Multiplicity="1" />
+          <End Role="UniversityCourse" Type="IronwoodModel.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UniversityDepartment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UniversityCourse">
+              <PropertyRef Name="Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IronwoodModelStoreContainer" CdmEntityContainer="IronwoodEntities2">
+          <EntitySetMapping Name="Courses"><EntityTypeMapping TypeName="IronwoodModel.Course"><MappingFragment StoreEntitySet="UniversityCourse">
+            <ScalarProperty Name="ID" ColumnName="CourseID" />
+            <ScalarProperty Name="Name" ColumnName="CourseName" />
+            <ScalarProperty Name="Title" ColumnName="CourseTitle" />
+            <ScalarProperty Name="Credits" ColumnName="CourseCredits" />
+            <ScalarProperty Name="Department" ColumnName="DepartmentID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Departments"><EntityTypeMapping TypeName="IronwoodModel.Department"><MappingFragment StoreEntitySet="UniversityDepartment">
+            <ScalarProperty Name="ID" ColumnName="DepartmentID" />
+            <ScalarProperty Name="Name" ColumnName="DepartmentName" />
+            <ScalarProperty Name="Office" ColumnName="DepartmentOffice" />
+            <ScalarProperty Name="Chair" ColumnName="DepartmentChairID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Course">
+        <EntityTypeShape EntityType="IronwoodModel.Course" Width="1.5" PointX="3" PointY="0.875" Height="2.1725878906250005" IsExpanded="true" />
+        <EntityTypeShape EntityType="IronwoodModel.Department" Width="1.5" PointX="0.75" PointY="1" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="IronwoodModel.FK_UniversityCourse_DepartmentID" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.9901432291666668" />
+          <ConnectorPoint PointX="3" PointY="1.9901432291666668" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

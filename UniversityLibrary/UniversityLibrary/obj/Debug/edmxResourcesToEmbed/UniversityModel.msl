@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IronwoodModelStoreContainer" CdmEntityContainer="IronwoodEntities1">
+    <EntitySetMapping Name="UniversityCourses">
+      <EntityTypeMapping TypeName="IronwoodModel.UniversityCourse">
+        <MappingFragment StoreEntitySet="UniversityCourse">
+          <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+          <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+          <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
+          <ScalarProperty Name="CourseCredits" ColumnName="CourseCredits" />
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UniversityDepartments">
+      <EntityTypeMapping TypeName="IronwoodModel.UniversityDepartment">
+        <MappingFragment StoreEntitySet="UniversityDepartment">
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+          <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+          <ScalarProperty Name="DepartmentOffice" ColumnName="DepartmentOffice" />
+          <ScalarProperty Name="DepartmentChairID" ColumnName="DepartmentChairID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
